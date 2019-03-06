@@ -1,0 +1,65 @@
+import operator 
+import math
+
+class Solution:
+    def reorganizeString(self, S: str) -> str:
+        # create a dictionary of counts of letters
+        vocabulary = {}
+
+        for char in S:
+            if char in vocabulary:
+                vocabulary[char] += 1
+            else: 
+                vocabulary[char] = 1
+                
+        
+        sorted_characters = []
+        # create a list of characters from most occurring to least
+        for w in sorted(vocabulary, key=vocabulary.get, reverse=True):
+            sorted_characters.append(w)
+        
+        # if the max count of some letter is greater than 
+        # half the length of the string the problem is not possible
+        
+        max_count = vocabulary[sorted_characters[0]]
+        
+        to_print = []
+        
+        max_chars = len(S)
+        
+        if  max_count > math.ceil(max_chars/2):
+            return ""
+        else:
+            last_item = 'null'
+            to_print = []
+
+            for i in range(0, max_chars):
+                re_sorted_characters = []
+                # create a list of characters from most occurring to least
+                for w in sorted(vocabulary, key=vocabulary.get, reverse=True):
+                    re_sorted_characters.append(w)
+
+                current_item = re_sorted_characters[0]
+
+                if i != (max_chars-1):    
+                    next_item = re_sorted_characters[1] 
+
+
+                if current_item == last_item:
+                    current_item = next_item
+
+                    to_print.append(current_item)
+                    vocabulary[current_item] -= 1
+                    if vocabulary[current_item] == 0:
+                        del vocabulary[current_item]
+                    last_item = current_item
+
+                else:
+
+                    to_print.append(current_item)
+                    vocabulary[current_item] -= 1
+                    if vocabulary[current_item] == 0:
+                        del vocabulary[current_item]
+                    last_item = current_item
+                    
+        return ''.join(to_print)
