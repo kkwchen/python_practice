@@ -3,9 +3,10 @@ import math
 
 class Solution:
     def reorganizeString(self, S: str) -> str:
-        # create a dictionary of counts of letters
+        # create a dictionary of counts of letters - default dict will help handle key errors
         vocabulary = {}
-
+        
+        # use counter here
         for char in S:
             if char in vocabulary:
                 vocabulary[char] += 1
@@ -27,6 +28,7 @@ class Solution:
         
         max_chars = len(S)
         
+        # their solution is more elegant (max_chars+1)/2
         if  max_count > math.ceil(max_chars/2):
             return ""
         else:
@@ -47,7 +49,7 @@ class Solution:
 
                 if current_item == last_item:
                     current_item = next_item
-
+                    # could turn this into a function instead of copy and pasting
                     to_print.append(current_item)
                     vocabulary[current_item] -= 1
                     if vocabulary[current_item] == 0:
